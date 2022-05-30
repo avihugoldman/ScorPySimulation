@@ -157,6 +157,7 @@ def start_gui(scorpy_robot):
     root = tk.Tk()
     app = RobotGui(root, scorpy_robot)
     if app.running:
+        root.title("ScorPySimulation")
         root.geometry("700x600")
         root.protocol("WM_DELETE_WINDOW", app.on_closing)
         root.after(100, app.routine_check)

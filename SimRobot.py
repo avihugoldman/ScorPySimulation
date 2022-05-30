@@ -18,6 +18,7 @@ MOVEMENT_VELOCITY = 0.1
 # create the Robot instance.
 robot = Robot()
 
+
 # get the time step of the current world.
 TIME_STEP = int(robot.getBasicTimeStep())
 joint_map = {0: "Base2Body_Rot", 1: "Body2Arm_Rot", 2: "Lower2Upper_Rot", 3: "grip_pitch", 4: "rot_grip"}
@@ -32,6 +33,8 @@ class SimRobot(Robot):
         self._is_home = True
         self._enable_movement = True
         self._points: dict[int: Point] = {}
+        self.cam = robot.getDevice('web_cam')
+        self.cam.enable(TIME_STEP)
         
         self.gps = robot.getDevice("Scrobot_GPS")
         self.gps.enable(TIME_STEP)
