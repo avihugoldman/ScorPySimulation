@@ -16,7 +16,7 @@ from stopRobotFrame import StopRobotFrame
 
 class RobotGui(tk.Frame):
     def __init__(self, parent, scorpy_robot):
-        #tk.Frame.__init__(self, parent)
+        # tk.Frame.__init__(self, parent)
         super(RobotGui, self).__init__(parent)
         self.parent = parent
         try:
@@ -42,7 +42,7 @@ class RobotGui(tk.Frame):
         self.robot_movement_frame = RobotMovementFrame(self)
         self.robot_status_frame = RobotStatusFrame(self)
         self.stop_robot_frame = StopRobotFrame(self)
-        
+
     def init_variables(self):
         self.current_file_name = None
         self.recorded_points = set()
@@ -89,7 +89,8 @@ class RobotGui(tk.Frame):
             widget.configure(state=toggle)
 
     def on_closing(self):
-        if messagebox.askokcancel("Are you sure you want to quit?", "Make sure you save any changes to points before you quit\n Click Ok to quit or Cancel to go back"):
+        if messagebox.askokcancel("Are you sure you want to quit?",
+                                  "Make sure you save any changes to points before you quit\n Click Ok to quit or Cancel to go back"):
             self.parent.destroy()
             exit(0)
 
@@ -147,9 +148,10 @@ class RobotGui(tk.Frame):
                     self.type_var.set('relative to ?')
 
     def routine_check(self):
-            self.check_robot_status()
-            self.update_robot_coordinates()
-            self.after(100, self.routine_check)
+        self.check_robot_status()
+        self.update_robot_coordinates()
+        self.after(100, self.routine_check)
+
 
 def start_gui(scorpy_robot):
     root = tk.Tk()
