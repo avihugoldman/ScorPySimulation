@@ -95,7 +95,7 @@ class RobotGui(tk.Frame):
             exit(0)
 
     def get_control_status(self):
-        if False:
+        if True:
             return 1
         else:
             return 0
@@ -157,7 +157,7 @@ def start_gui(scorpy_robot):
     root = tk.Tk()
     app = RobotGui(root, scorpy_robot)
     if app.running:
-        root.title("ScorPySimulation")
+        root.title("ScorpySimulation")
         root.geometry("700x600")
         root.protocol("WM_DELETE_WINDOW", app.on_closing)
         root.after(100, app.routine_check)

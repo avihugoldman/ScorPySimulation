@@ -484,6 +484,7 @@ class SimRobot(Robot):
 
     def get_position_coordinates(self, num: int):
         data = self.gps.getValues()
+        print(f"robot coordinates are {data}")
         return data
         
     def get_position_type(self, num):
@@ -497,5 +498,11 @@ class SimRobot(Robot):
             data = self.roll_grip_sen.getValue()
         data = round(data, 5)
         return data
+    
+    def set_motion_status(self, status):
+        if status:
+            self._motion_status = True
+        else:
+            self._motion_status = False
     
     
