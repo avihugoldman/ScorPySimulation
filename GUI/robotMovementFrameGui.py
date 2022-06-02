@@ -6,7 +6,6 @@ from threading import Thread
 
 class RobotMovementFrame(tk.LabelFrame):
     def __init__(self, parent):
-        # tk.LabelFrame.__init__(self, parent, text="Move Robot Manually", height=350)
         super(RobotMovementFrame, self).__init__(parent, text="Move Robot Manually", height=350)
         self.parent = parent
         self.grid(row=2, rowspan = 30, column=0, sticky=tk.W + tk.E, padx=10)
@@ -27,7 +26,6 @@ class RobotMovementFrame(tk.LabelFrame):
         self.base_inc.bind('<ButtonPress-1>',
                       lambda event, joint=Joints.BASE, direction=Direction.DEC: self.joint_start(event, joint, direction))
         self.base_inc.bind('<ButtonRelease-1>', lambda event, joint=Joints.BASE: self.stop(event, joint))
-        # print(threading.active_count())
 
         self.base_inc.place(x=10, y=215)
         self.parent.buttons_set.add(self.base_inc)
@@ -95,7 +93,6 @@ class RobotMovementFrame(tk.LabelFrame):
         self.roll_dec.place(x=375, y=160)
         self.parent.buttons_set.add(self.roll_dec)
 
-
         self.gripper_label = tk.Label(self,text="Gripper")
         self.gripper_label.place(x=250, y=230)
 
@@ -115,19 +112,12 @@ class RobotMovementFrame(tk.LabelFrame):
 
     def joint_start(self, event, joint, direction):
         if str(event.widget['state']) == 'normal':
-            #while True:
-            print(f"Active threads before:{threading.active_count()}")
             t_1 = Thread(target=self.parent.robot.move_joints, args=(joint, direction))
             t_1.start()
-            print(f"Active threads after:{threading.active_count()}")
-                # self.parent.robot.move_joints(joint, direction)
-                # self.base_inc.bind('<ButtonRelease-1>', lambda event, joint=Joints.BASE: self.stop(event, joint))
     
-    def check_if_stop(self):
-        print(f"running thread {threading.current_thread()}")
-        self.roll_dec.bind('<ButtonPress-1>',
-                           lambda event, joint=Joints.ROLL, direction=Direction.DEC: self.joint_start(event, joint, 0))
-            
+    def move_joints_step(self, event, joint, direction):
+        if str(event.widget['state']) == 'normal':
+            self.parent.robot.move_joints_step(joint, direction)
     
     def xyz_start(self, event, axis, direction):
         if str(event.widget['state']) == 'normal':
@@ -144,6 +134,6 @@ class RobotMovementFrame(tk.LabelFrame):
     def stop(self, event, axis):
         self._enable_movement = False
         if str(event.widget['state']) == 'normal':
-            t = Thread(target=self.parent.robot.stop(axis), args=(self,))
-            t.start()
+            self.parent.robot.stop(axis)
             print("stopping")
+            

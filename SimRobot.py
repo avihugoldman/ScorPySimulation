@@ -90,245 +90,6 @@ class SimRobot(Robot):
     @is_home.setter
     def is_home(self, status: bool):
         self._motion_status = status
-
-    def rotatioanal_base(self):
-        self.base_body_mt.setPosition(float("inf"))
-        i=0
-        # Main loop:
-        # - perform simulation steps until Webots is stopping the controller
-        while robot.step(TIME_STEP) != -1:
-            i+=1
-            print(i)
-            # Read the sensors:
-            # Enter here functions to read sensor data, like:
-            #  val = ds.getValue()
-            
-            pos = self.base_body_sen.getValue()
-            print(pos)
-            # Process sensor data here.
-    
-            # Enter here functions to send actuator commands, like:
-            #  motor.setPosition(10.0)
-            if i<=50:
-                self.base_body_mt.setVelocity(BASE_SPEED + MOVEMENT_VELOCITY)
-            if i > 50:
-                self.base_body_mt.setVelocity(BASE_SPEED)
-                break
-            pass
-    
-    def rotatioanal_base_reverse(self):
-    
-        # You should insert a getDevice-like function in order to get the
-        # instance of a device of the robot. Something like:
-        #  motor = robot.getDevice('motorname')
-        #  ds = robot.getDevice('dsname')
-        #  ds.enable(timestep)
-        
-        self.base_body_mt.setPosition(float("inf"))
-        i = 0
-        # Main loop:
-        # - perform simulation steps until Webots is stopping the controller
-        while robot.step(TIME_STEP) != -1:
-            i += 1
-            print(i)
-            # Read the sensors:
-            # Enter here functions to read sensor data, like:
-            #  val = ds.getValue()
-    
-            # Process sensor data here.
-    
-            # Enter here functions to send actuator commands, like:
-            #  motor.setPosition(10.0)
-            if i <= 50:
-                self.base_body_mt.setVelocity(BASE_SPEED - MOVEMENT_VELOCITY)
-            if i > 50:
-                self.base_body_mt.setVelocity(BASE_SPEED)
-                break
-            pass
-
-    def shoulder(self):
-        self.shoulder_mt.setPosition(float("inf"))
-        i = 0
-        # Main loop:
-        # - perform simulation steps until Webots is stopping the controller
-        while robot.step(TIME_STEP) != -1:
-            i += 1
-            print(i)
-            # Read the sensors:
-            # Enter here functions to read sensor data, like:
-            #  val = ds.getValue()
-        
-            # Process sensor data here.
-        
-            # Enter here functions to send actuator commands, like:
-            #  motor.setPosition(10.0)
-            if i <= 50:
-                self.shoulder_mt.setVelocity(BASE_SPEED + MOVEMENT_VELOCITY)
-            if i > 50:
-                self.shoulder_mt.setVelocity(BASE_SPEED)
-                break
-            pass
-
-    def shoulder_reverse(self):
-        self.shoulder_mt.setPosition(float("inf"))
-        i = 0
-        # Main loop:
-        # - perform simulation steps until Webots is stopping the controller
-        while robot.step(TIME_STEP) != -1:
-            i += 1
-            print(i)
-            # Read the sensors:
-            # Enter here functions to read sensor data, like:
-            #  val = ds.getValue()
-        
-            # Process sensor data here.
-        
-            # Enter here functions to send actuator commands, like:
-            #  motor.setPosition(10.0)
-            if i <= 50:
-                self.shoulder_mt.setVelocity(BASE_SPEED - MOVEMENT_VELOCITY)
-            if i > 50:
-                self.shoulder_mt.setVelocity(BASE_SPEED)
-                break
-            pass
-    
-    def elbow(self):
-        self.elbow_mt.setPosition(float("inf"))
-        i = 0
-        # Main loop:
-        # - perform simulation steps until Webots is stopping the controller
-        while robot.step(TIME_STEP) != -1:
-            i += 1
-            print(i)
-            # Read the sensors:
-            # Enter here functions to read sensor data, like:
-            #  val = ds.getValue()
-    
-            # Process sensor data here.
-    
-            # Enter here functions to send actuator commands, like:
-            #  motor.setPosition(10.0)
-            if i <= 50:
-                self.elbow_mt.setVelocity(BASE_SPEED + MOVEMENT_VELOCITY)
-            if i > 50:
-                self.elbow_mt.setVelocity(BASE_SPEED)
-                break
-            pass
-    
-    def elbow_reverse(self):
-        self.elbow_mt.setPosition(float("inf"))
-        i = 0
-        # Main loop:
-        # - perform simulation steps until Webots is stopping the controller
-        while robot.step(TIME_STEP) != -1:
-            i += 1
-            print(i)
-            # Read the sensors:
-            # Enter here functions to read sensor data, like:
-            #  val = ds.getValue()
-    
-            # Process sensor data here.
-    
-            # Enter here functions to send actuator commands, like:
-            #  motor.setPosition(10.0)
-            if i <= 50:
-                self.elbow_mt.setVelocity(BASE_SPEED - MOVEMENT_VELOCITY)
-            if i > 50:
-                self.elbow_mt.setVelocity(BASE_SPEED)
-                break
-            pass
-    
-    def gripper_pitch(self):
-        self.grip_mt.setPosition(float("inf"))
-        i = 0
-        # Main loop:
-        # - perform simulation steps until Webots is stopping the controller
-        while robot.step(TIME_STEP) != -1:
-            i += 1
-            print(i)
-            # Read the sensors:
-            # Enter here functions to read sensor data, like:
-            #  val = ds.getValue()
-    
-            # Process sensor data here.
-    
-            # Enter here functions to send actuator commands, like:
-            #  motor.setPosition(10.0)
-            if i <= 50:
-                self.grip_mt.setVelocity(BASE_SPEED - MOVEMENT_VELOCITY)
-            if i > 50:
-                self.grip_mt.setVelocity(BASE_SPEED)
-                break
-            pass
-    
-    def gripper_pitch_reverse(self):
-        self.grip_mt.setPosition(float("inf"))
-        i = 0
-        # Main loop:
-        # - perform simulation steps until Webots is stopping the controller
-        while robot.step(TIME_STEP) != -1:
-            i += 1
-            print(i)
-            # Read the sensors:
-            # Enter here functions to read sensor data, like:
-            #  val = ds.getValue()
-    
-            # Process sensor data here.
-    
-            # Enter here functions to send actuator commands, like:
-            #  motor.setPosition(10.0)
-            if i <= 50:
-                self.grip_mt.setVelocity(BASE_SPEED + MOVEMENT_VELOCITY)
-            if i > 50:
-                self.grip_mt.setVelocity(BASE_SPEED)
-                break
-            pass
-    
-    def gripper_roll(self):
-        self.roll_grip_mt.setPosition(float("inf"))
-        i = 0
-        # Main loop:
-        # - perform simulation steps until Webots is stopping the controller
-        while robot.step(TIME_STEP) != -1:
-            i += 1
-            print(i)
-            # Read the sensors:
-            # Enter here functions to read sensor data, like:
-            #  val = ds.getValue()
-    
-            # Process sensor data here.
-    
-            # Enter here functions to send actuator commands, like:
-            #  motor.setPosition(10.0)
-            if i <= 50:
-                self.roll_grip_mt.setVelocity(BASE_SPEED - MOVEMENT_VELOCITY)
-            if i > 50:
-                self.roll_grip_mt.setVelocity(BASE_SPEED)
-                break
-            pass
-    
-    def gripper_roll_reverse(self):
-        self.roll_grip_mt.setPosition(float("inf"))
-        i = 0
-        # Main loop:
-        # - perform simulation steps until Webots is stopping the controller
-        while robot.step(TIME_STEP) != -1:
-            i += 1
-            print(i)
-            # Read the sensors:
-            # Enter here functions to read sensor data, like:
-            #  val = ds.getValue()
-    
-            # Process sensor data here.
-    
-            # Enter here functions to send actuator commands, like:
-            #  motor.setPosition(10.0)
-            if i <= 50:
-                self.roll_grip_mt.setVelocity(BASE_SPEED + MOVEMENT_VELOCITY)
-            if i > 50:
-                self.roll_grip_mt.setVelocity(BASE_SPEED)
-                break
-            pass
     
     def gripper_open(self):
         self.grip_right_arm_mt.setPosition(float("inf"))
@@ -382,8 +143,9 @@ class SimRobot(Robot):
         self.grip_right_arm_mt.setPosition(float('0'))
         self.grip_left_arm_mt.setPosition(float('0'))
         home_print_flag = False
+        self._enable_movement = True
 
-        while robot.step(TIME_STEP) != -1:
+        while robot.step(TIME_STEP) != -1 and self._enable_movement:
             if not self.is_home:
                 if not home_print_flag:
                     print(f"Going Home")
@@ -403,10 +165,44 @@ class SimRobot(Robot):
                 self.roll_grip_mt.setVelocity(BASE_SPEED)
                 self.grip_right_arm_mt.setVelocity(BASE_SPEED)
                 self.grip_left_arm_mt.setVelocity(BASE_SPEED)
+                print(f"Finished going Home")
+                self._is_home = True
                 break
-        print(f"Finished going Home")
-        self._is_home = True
-        
+
+    def move_joints_step(self, joint, direction):
+        self._enable_movement = True
+        motor = robot.getDevice(joint_map[joint])
+        sensor = robot.getDevice(sensor_map[joint])
+        motor.setPosition(float('inf'))
+        position = float(sensor.getValue()) + 0.1 if not direction else float(sensor.getValue()) - 0.1
+        print(f"Moving joint {joint_map[joint]}")
+        diff = abs(sensor.getValue() - position)
+        start_time = time.time()
+        # print(
+        #     f"Moving joint {joint_map[joint]} position is  {sensor.getValue()} wanted = {position} diff is {abs(sensor.getValue())}")
+        while self._enable_movement and robot.step(TIME_STEP) != -1:
+            diff = abs(sensor.getValue() - position)
+            if time.time() - start_time > 10:
+                self._enable_movement = False
+                motor.setVelocity(BASE_SPEED)
+                print(f"Finished moving joint {joint_map[joint]} because timeout!")
+                break
+            if diff > 0.01:
+                self._is_home = False
+                if direction == 1:
+                    # print(
+                        # f"direction is: {direction} wanted = {position} position {sensor.getValue()} Diff is {diff} > 1? {diff > 0.001:}")
+                    motor.setVelocity(BASE_SPEED - MOVEMENT_VELOCITY)
+                else:
+                    # print(
+                        # f"direction is: {direction} wanted = {position} position {sensor.getValue()} Diff is {diff} > 1? {diff > 0.001:}")
+                    motor.setVelocity(BASE_SPEED + MOVEMENT_VELOCITY)
+            else:
+                self._enable_movement = False
+                motor.setVelocity(BASE_SPEED)
+                print(f"Finished moving joint {joint_map[joint]}")
+                break
+    
     def move_joints(self, joint, direction):
         self._enable_movement = True
         motor = robot.getDevice(joint_map[joint])

@@ -78,14 +78,14 @@ class RobotMoveByAxisFrame(tk.LabelFrame):
 
         self.p_inc = ttk.Button(self, text="+", width=1)
         self.p_inc.bind('<ButtonPress-1>',
-                   lambda event, joint=Joints.PITCH, direction=Direction.INC: self.parent.joint_start(event, joint, direction))
+                   lambda event, joint=Joints.PITCH, direction=Direction.INC: self.parent.move_joints_step(event, joint, direction))
         self.p_inc.bind('<ButtonRelease-1>', lambda event, joint=Joints.PITCH: self.parent.robot.stop_movement(event, joint))
         self.p_inc.grid(row=1, column=3)
         self.parent.parent.buttons_set.add(self.p_inc)
 
         self.p_dec = ttk.Button(self, text="-", width=1)
         self.p_dec.bind('<ButtonPress-1>',
-                   lambda event, joint=Joints.PITCH, direction=Direction.DEC: self.parent.joint_start(event, joint, direction))
+                   lambda event, joint=Joints.PITCH, direction=Direction.DEC: self.parent.move_joints_step(event, joint, direction))
         self.p_dec.bind('<ButtonRelease-1>', lambda event, joint=Joints.PITCH: self.parent.robot.stop_movement(event, joint))
         self.p_dec.grid(row=2, column=3)
         self.parent.parent.buttons_set.add(self.p_dec)
@@ -95,14 +95,14 @@ class RobotMoveByAxisFrame(tk.LabelFrame):
 
         self.r_inc = ttk.Button(self, text="+", width=1)
         self.r_inc.bind('<ButtonPress-1>',
-                   lambda event, joint=Joints.ROLL, direction=Direction.INC: self.parent.joint_start(event, joint, direction))
+                   lambda event, joint=Joints.ROLL, direction=Direction.INC: self.parent.move_joints_step(event, joint, direction))
         self.r_inc.bind('<ButtonRelease-1>', lambda event, joint=Joints.ROLL: self.parent.robot.stop_movement(event, joint))
         self.r_inc.grid(row=1, column=4)
         self.parent.parent.buttons_set.add(self.r_inc)
 
         self.r_dec = ttk.Button(self, text="-", width=1)
         self.r_dec.bind('<ButtonPress-1>',
-                   lambda event, joint=Joints.ROLL, direction=Direction.DEC: self.parent.joint_start(event, joint, direction))
+                   lambda event, joint=Joints.ROLL, direction=Direction.DEC: self.parent.move_joints_step(event, joint, direction))
         self.r_dec.bind('<ButtonRelease-1>', lambda event, joint=Joints.ROLL: self.parent.robot.stop_movement(event, joint))
         self.r_dec.grid(row=2, column=4)
         self.parent.parent.buttons_set.add(self.r_dec)
