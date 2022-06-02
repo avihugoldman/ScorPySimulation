@@ -24,7 +24,8 @@ class RobotStatusFrame(tk.LabelFrame):
 
         self.home_on_image = tk.PhotoImage(file="GUI/resources/home_on.gif")
         self.home_off_image = tk.PhotoImage(file="GUI/resources/home_off.gif")
-        self.homeBtn = tk.Button(self, image=self.home_off_image, command=self.async_home_robot())
+        self.homeBtn = tk.Button(self, image=self.home_off_image, command=self.home_robot)
+        # self.home_onBtn = tk.Button(self, image=self.home_on_image, command=self.home_robot())
         self.homeBtn.grid(row=0, column=8, pady=10, padx=10, columnspan=4, rowspan=4, sticky=tk.W + tk.E + tk.N + tk.S)
         Tooltip(self.homeBtn, text='home robot')
         self.parent.buttons_set.add(self.homeBtn)
@@ -41,17 +42,18 @@ class RobotStatusFrame(tk.LabelFrame):
         self.parent.on_closing()
 
     def async_home_robot(self):
-        t = Thread(target=self.parent.robot.home(), args=(self,))
+        t = Thread(target=self.parent.robot.home, args=())
         print("in async_home_robot")
         self.parent.robot.set_motion_status(1)
         t.start()
         self.parent.after(100, self.declare_stop_motion)
 
-    def home_robot(self, outqueue):
+    def home_robot(self):
         robot = self.parent.robot
         # if not robot.is_home:
         robot.home()
-
-        outqueue.put('done')
+        self.parent.robot.set_motion_status(1)
+        self.parent.after(100, self.declare_stop_motion)
+        # outqueue.put('done')
 
 

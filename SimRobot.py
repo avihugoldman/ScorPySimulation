@@ -411,25 +411,18 @@ class SimRobot(Robot):
         self._enable_movement = True
         motor = robot.getDevice(joint_map[joint])
         sensor = robot.getDevice(sensor_map[joint])
-        position = float(sensor.getValue()) + 0.1 if not direction else float(sensor.getValue()) - 0.1
         motor.setPosition(float('inf'))
-        print(f"Moving joint {joint_map[joint]} position is  {sensor.getValue()} wanted = {position} diff is {abs(sensor.getValue() - position)}")
+        print(f"Moving joint {joint_map[joint]}")
         
         while self._enable_movement and robot.step(TIME_STEP) != -1:
-            diff = abs(sensor.getValue() - position)
-            if diff > 0.001:
-                self._is_home = False
-                if direction == 1:
-                    print(f"direction is: {direction} wanted = {position} position {sensor.getValue()} Diff is {diff} > 1? {diff > 0.001:}")
-                    motor.setVelocity(BASE_SPEED - MOVEMENT_VELOCITY)
-                else:
-                    print(f"direction is: {direction} wanted = {position} position {sensor.getValue()} Diff is {diff} > 1? {diff > 0.001:}")
-                    motor.setVelocity(BASE_SPEED + MOVEMENT_VELOCITY)
+            self._is_home = False
+            if direction == 1:
+                motor.setVelocity(BASE_SPEED - MOVEMENT_VELOCITY)
             else:
-                motor.setVelocity(BASE_SPEED)
-                # self._enable_movement = False
-                print(f"Finished moving joint {joint_map[joint]}")
-                break
+                motor.setVelocity(BASE_SPEED + MOVEMENT_VELOCITY)
+        
+        motor.setVelocity(BASE_SPEED)
+        print(f"Finished moving joint {joint_map[joint]}")
             
     def move_to_point(self, point: Point):
         pass

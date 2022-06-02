@@ -116,11 +116,10 @@ class RobotMovementFrame(tk.LabelFrame):
     def joint_start(self, event, joint, direction):
         if str(event.widget['state']) == 'normal':
             #while True:
-            t_1 = Thread(target=self.parent.robot.move_joints(joint, direction), args=(self, ))
-            t_2 = Thread(target=self.check_if_stop(), args=(self, ))
-            t_2.start()
+            print(f"Active threads before:{threading.active_count()}")
+            t_1 = Thread(target=self.parent.robot.move_joints, args=(joint, direction))
             t_1.start()
-            print(threading.active_count())
+            print(f"Active threads after:{threading.active_count()}")
                 # self.parent.robot.move_joints(joint, direction)
                 # self.base_inc.bind('<ButtonRelease-1>', lambda event, joint=Joints.BASE: self.stop(event, joint))
     
