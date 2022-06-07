@@ -149,7 +149,7 @@ class RobotGui(tk.Frame):
 
     def routine_check(self):
         self.check_robot_status()
-        self.update_robot_coordinates()
+        # self.update_robot_coordinates()
         self.after(100, self.routine_check)
 
 

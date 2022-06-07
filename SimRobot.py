@@ -286,10 +286,16 @@ class SimRobot(Robot):
     def move_linear(self, num):
         point = self._points[num]
         self.move_to_point(point)
+        print(f"Go straight to point {num}")
+    
+    def go_to_point(self, num):
+        point = self._points[num]
+        self.move_to_point(point)
+        print(f"Go to point {num}")
 
-    def get_position_coordinates(self, num: int):
+    def get_position_coordinates(self):
         data = self.gps.getValues()
-        print(f"robot coordinates are {data}")
+        # print(f"robot coordinates are {data}")
         return data
         
     def get_position_type(self, num):

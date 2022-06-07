@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
+import time
+from threading import Thread
 
 
 class CoordinatesFrame(tk.LabelFrame):
@@ -44,14 +46,17 @@ class CoordinatesFrame(tk.LabelFrame):
         self.Type_input = tk.Entry(self, bd=2, width=15, state="readonly", textvariable=self.parent.type_var)
         self.Type_input.grid(row=1, column=7)
 
-        self.getPositionBtn = ttk.Button(self, text="Get Point Coordinates", command=self.getPointDetails)
+        self.getPositionBtn = ttk.Button(self, text="Get Point Coordinates", command=self.get_point_details)
         self.getPositionBtn.grid(row=2, column=1, pady=10, columnspan=3)
         self.parent.buttons_set.add(self.getPositionBtn)
         self.clearBtn = ttk.Button(self, text="Reset Coordinates", command=self.clearCoords)
         self.clearBtn.grid(row=2, column=4, columnspan=3)
         self.parent.buttons_set.add(self.clearBtn)
 
-    def getPointDetails(self):
+        t = Thread(target=self.update_robot_position, args=())
+        t.start()
+
+    def get_point_details(self):
         num_str = self.parent.point_selection_frame.currentPointBox.get()
         num = self.parent.point_management_frame.get_point_as_int(num_str)
         if not num:
@@ -59,8 +64,8 @@ class CoordinatesFrame(tk.LabelFrame):
         if not (num in self.parent.recorded_points):
             messagebox.showinfo("Error", "no such point in memory")
             return False
-        data_array = self.get_coords(num)
-        print(data_array)
+        data_array = self.get_coords()
+        # print(data_array)
         self.parent.x_var.set(data_array[0])
         self.parent.y_var.set(data_array[1])
         self.parent.z_var.set(data_array[2])
@@ -72,16 +77,26 @@ class CoordinatesFrame(tk.LabelFrame):
             type_string = 'relative to ' + str(data_array[5] * -1)
         self.parent.type_var.set(type_string)
 
-    def get_coords(self, num):
-        coords_list = list(self.parent.robot.get_position_coordinates(num))
-        print(coords_list)
+    def get_coords(self):
+        coords_list = list(self.parent.robot.get_position_coordinates())
+        # print(coords_list)
         coords_list.append(self.parent.robot.get_sensor_data('grip_pitch_Sen'))
         coords_list.append(self.parent.robot.get_sensor_data('rot_grip_Sen'))
-        coords_list.append(self.parent.robot.get_position_type(num))
+        # coords_list.append(self.parent.robot.get_position_type(num))
         # coords_list += [self.parent.robot.get_sensor_data('rot_grip_Sen')]
         # coords_list = [self.parent.robot.get_position_type(num)]
         return coords_list
 
+    def update_robot_position(self):
+        while True:
+            data_array = self.get_coords()
+            # print(data_array)
+            self.parent.x_var.set(round((data_array[0] * 100), 3))
+            self.parent.y_var.set(round((data_array[1] * 100), 3))
+            self.parent.z_var.set(round((data_array[2] * 100), 3))
+            self.parent.pitch_var.set(data_array[3])
+            self.parent.roll_var.set(data_array[4])
+            time.sleep(0.05)
 
     def clearCoords(self):
         self.parent.x_var.set(0.0)

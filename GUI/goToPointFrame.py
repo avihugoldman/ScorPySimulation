@@ -44,10 +44,8 @@ class GoToPointFrame(tk.LabelFrame):
         t.start()
 
     def move(self, num):
-        client = Client()
-        client.move(num)
-
-
+        robot = self.parent.robot
+        robot.go_to_point(num)
 
     def async_move(self):
         num_str = self.parent.point_selection_frame.currentPointBox.get()
