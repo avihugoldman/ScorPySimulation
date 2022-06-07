@@ -92,20 +92,29 @@ class SimRobot(Robot):
         self._motion_status = status
     
     def gripper_open(self):
+        self._enable_movement = True
         self.grip_right_arm_mt.setPosition(float("inf"))
         self.grip_left_arm_mt.setPosition(float("inf"))
         left_sensor = self.grip_left_arm_sen
         right_sensor = self.grip_right_arm_sen
         opening_print_flag = False
-        
-        while robot.step(TIME_STEP) != -1:
-            if abs(left_sensor.getValue()) > 0.000001 and abs(right_sensor.getValue()) > 0.000001:
+        start_time = time.time()
+
+        while robot.step(TIME_STEP) != -1 and self._enable_movement:
+            # Timeout safe exit
+            if time.time() - start_time > 10:
+                self._enable_movement = False
+                self.grip_right_arm_mt.setVelocity(BASE_SPEED)
+                self.grip_left_arm_mt.setVelocity(BASE_SPEED)
+                print(f"Finished moving gripper because timeout!")
+            if abs(left_sensor.getValue()) > 0.0001 and abs(right_sensor.getValue()) > 0.0001:
                 if not opening_print_flag:
                     print("Opening gripper!")
                     opening_print_flag = True
-                self.grip_right_arm_mt.setVelocity(BASE_SPEED + MOVEMENT_VELOCITY * 3)
-                self.grip_left_arm_mt.setVelocity(BASE_SPEED - MOVEMENT_VELOCITY * 3)
+                self.grip_right_arm_mt.setVelocity(BASE_SPEED + MOVEMENT_VELOCITY * 2)
+                self.grip_left_arm_mt.setVelocity(BASE_SPEED - MOVEMENT_VELOCITY * 2)
             else:
+                self._enable_movement = False
                 self.grip_right_arm_mt.setVelocity(BASE_SPEED)
                 self.grip_left_arm_mt.setVelocity(BASE_SPEED)
                 print("Gripper opened!")
@@ -113,22 +122,29 @@ class SimRobot(Robot):
                 break
     
     def gripper_close(self):
-        self.grip_right_arm_mt.setVelocity(0)
+        self._enable_movement = True
         self.grip_right_arm_mt.setPosition(float("inf"))
-        self.grip_left_arm_mt.setVelocity(0)
         self.grip_left_arm_mt.setPosition(float("inf"))
         left_sensor = self.grip_left_arm_sen
         right_sensor = self.grip_right_arm_sen
         closing_print_flag = False
+        start_time = time.time()
         
-        while robot.step(TIME_STEP) != -1:
-            if abs(left_sensor.getValue() - 0.5056) > 0.01 and abs(right_sensor.getValue() + 0.5056) > 0.01:
+        while robot.step(TIME_STEP) != -1 and self._enable_movement:
+            # Timeout safe exit
+            if time.time() - start_time > 5:
+                self._enable_movement = False
+                self.grip_right_arm_mt.setVelocity(BASE_SPEED)
+                self.grip_left_arm_mt.setVelocity(BASE_SPEED)
+                print(f"Finished moving gripper because of timeout!")
+            if abs(left_sensor.getValue() - 0.5056) > 0.001 and abs(right_sensor.getValue() + 0.5056) > 0.001:
                 if not closing_print_flag:
                     print("Closing gripper!")
                     closing_print_flag = True
-                self.grip_left_arm_mt.setVelocity(BASE_SPEED + MOVEMENT_VELOCITY * 3)
-                self.grip_right_arm_mt.setVelocity(BASE_SPEED - MOVEMENT_VELOCITY * 3)
+                self.grip_left_arm_mt.setVelocity(BASE_SPEED + MOVEMENT_VELOCITY * 2)
+                self.grip_right_arm_mt.setVelocity(BASE_SPEED - MOVEMENT_VELOCITY * 2)
             else:
+                self._enable_movement = False
                 self.grip_left_arm_mt.setVelocity(BASE_SPEED)
                 self.grip_right_arm_mt.setVelocity(BASE_SPEED)
                 print("Gripper closed!")
@@ -144,7 +160,7 @@ class SimRobot(Robot):
         self.grip_left_arm_mt.setPosition(float('0'))
         home_print_flag = False
         self._enable_movement = True
-
+        
         while robot.step(TIME_STEP) != -1 and self._enable_movement:
             if not self.is_home:
                 if not home_print_flag:
