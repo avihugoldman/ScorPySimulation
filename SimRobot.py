@@ -69,6 +69,8 @@ class SimRobot(Robot):
 
         self._sensor_list = [self.base_body_sen, self.shoulder_sen, self.elbow_sen, self.grip_sen, self.roll_grip_sen, self.grip_right_arm_sen,  self.grip_left_arm_sen]
         
+        self.update_on = True
+        
     @property
     def motion_status(self) -> bool:
         return self._motion_status
@@ -263,12 +265,12 @@ class SimRobot(Robot):
         print(f"move_xyz : {axis, direction}")
 
     def teach_absolute_xyz_position(self, point_number, x, y, z, pitch, roll):
-        self._points[point_number] = Point(int(x * 1000), int(y * 1000), int(z * 1000), int(pitch * 1000), int(roll * 1000))
+        self._points[point_number] = Point(int(x), int(y), int(z), int(pitch * 1000), int(roll * 1000))
         return True
         
     def teach_relative_xyz_position(self, point_number, x, y, z, pitch, roll, relative_num):
         rel_point = self._points[relative_num]
-        self._points[point_number] = Point(int(rel_point.x + x * 1000), int(rel_point.y + y * 1000), int(rel_point.z + z * 1000), int(rel_point.pitch + pitch * 1000), int(rel_point.roll + roll * 1000), "Relative")
+        self._points[point_number] = Point(int(rel_point.x + x), int(rel_point.y + y), int(rel_point.z + z), int(rel_point.pitch + pitch * 1000), int(rel_point.roll + roll * 1000), "Relative")
         return True
         
     def clear_recorded_points(self):
@@ -297,7 +299,12 @@ class SimRobot(Robot):
         data = self.gps.getValues()
         # print(f"robot coordinates are {data}")
         return data
-        
+    
+    def get_point_coordinates(self, num):
+        data = self._points[num]
+        # print(f"robot coordinates are {data}")
+        return data
+    
     def get_position_type(self, num):
         return self._points[num].point_type
     

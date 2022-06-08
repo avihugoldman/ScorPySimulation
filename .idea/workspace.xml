@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e6dbd1e5-e01b-43f2-a882-e3ae9d3f26d7" name="Changes" comment="Fix gripper bug">
+    <list default="true" id="e6dbd1e5-e01b-43f2-a882-e3ae9d3f26d7" name="Changes" comment="Update robot position + gps in webots show correct home values">
       <change beforePath="$PROJECT_DIR$/.Scorobot_Projcet.wbproj" beforeDir="false" afterPath="$PROJECT_DIR$/.Scorobot_Projcet.wbproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/ScorPy.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ScorPy.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GUI/SimGUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/SimGUI.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GUI/coordinatesFrameGui.py" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/coordinatesFrameGui.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GUI/goToPointFrame.py" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/goToPointFrame.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Scorobot_Projcet.wbt" beforeDir="false" afterPath="$PROJECT_DIR$/Scorobot_Projcet.wbt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SimRobot.py" beforeDir="false" afterPath="$PROJECT_DIR$/SimRobot.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -38,7 +37,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PythonContentEntriesConfigurable" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -296,7 +295,8 @@
       <workItem from="1654178090099" duration="6284000" />
       <workItem from="1654253441566" duration="1948000" />
       <workItem from="1654528907527" duration="1392000" />
-      <workItem from="1654623467253" duration="5241000" />
+      <workItem from="1654623467253" duration="5341000" />
+      <workItem from="1654678395065" duration="3547000" />
     </task>
     <task id="LOCAL-00001" summary="Home button is now working.&#10;Robot is now moving while hold a button.">
       <created>1654179420340</created>
@@ -319,7 +319,14 @@
       <option name="project" value="LOCAL" />
       <updated>1654623528096</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Update robot position + gps in webots show correct home values">
+      <created>1654629894070</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1654629894070</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -341,7 +348,8 @@
     <MESSAGE value="Home button is now working.&#10;Robot is now moving while hold a button." />
     <MESSAGE value="P and R now working" />
     <MESSAGE value="Fix gripper bug" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix gripper bug" />
+    <MESSAGE value="Update robot position + gps in webots show correct home values" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update robot position + gps in webots show correct home values" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -357,7 +365,7 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/ScorPySimulation$SimRobot.coverage" NAME="SimRobot Coverage Results" MODIFIED="1653938775526" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/ScorPy$contorollers.coverage" NAME="contorollers Coverage Results" MODIFIED="1653642871506" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Downloads" />
-    <SUITE FILE_PATH="coverage/ScorPySimulation$SimGUI.coverage" NAME="SimGUI Coverage Results" MODIFIED="1654629233409" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/ScorPySimulation$SimGUI.coverage" NAME="SimGUI Coverage Results" MODIFIED="1654682087754" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/ScorPy$ScorPy.coverage" NAME="ScorPy Coverage Results" MODIFIED="1653750336133" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/ScorPy$SimGUI.coverage" NAME="SimGUI Coverage Results" MODIFIED="1653921564623" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/ScorPySimulation$Controller.coverage" NAME="Controller Coverage Results" MODIFIED="1653938836414" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

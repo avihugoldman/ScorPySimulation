@@ -1,7 +1,7 @@
+import time
 import tkinter as tk
 from threading import Thread
 from tkinter import messagebox
-
 import SimRobot
 from menuBarGui import MenuBar
 from robotPositionFrameGui import RobotPositionFrame
@@ -68,9 +68,11 @@ class RobotGui(tk.Frame):
 
     def toggle_recording_frame(self):
         if self.teach_by_robot_positon.get() == 1:
+            self.robot.update_on = True
             self.coordinates_frame.grid_forget()
             self.robot_position_frame.grid(row=1, column=0, sticky=tk.W + tk.E, padx=10)
         if self.teach_by_robot_positon.get() == 0:
+            self.robot.update_on = False
             self.robot_position_frame.grid_forget()
             self.coordinates_frame.grid(row=1, column=0, sticky=tk.W + tk.E, padx=10)
             self.x_var.set(0.0)
@@ -111,6 +113,17 @@ class RobotGui(tk.Frame):
         else:
             self.robot_status_frame.controlBtn.configure(image=self.robot_status_frame.control_off_image)
 
+    def update_robot_position(self):
+        if self.robot.update_on:
+            data_array = list(self.robot.get_position_coordinates())
+            data_array.append(self.robot.get_sensor_data('grip_pitch_Sen'))
+            data_array.append(self.robot.get_sensor_data('rot_grip_Sen'))
+            self.x_var.set(round((data_array[0] * 100), 3))
+            self.y_var.set(round((data_array[1] * 100), 3))
+            self.z_var.set(round((data_array[2] * 100), 3))
+            self.pitch_var.set(data_array[3])
+            self.roll_var.set(data_array[4])
+    
     def update_robot_coordinates(self):
         if self.teach_by_robot_positon.get() == 1:
             if self.is_point_absolute.get() == 1:
@@ -149,7 +162,7 @@ class RobotGui(tk.Frame):
 
     def routine_check(self):
         self.check_robot_status()
-        # self.update_robot_coordinates()
+        self.update_robot_position()
         self.after(100, self.routine_check)
 
 
