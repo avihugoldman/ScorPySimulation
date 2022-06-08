@@ -41,6 +41,7 @@ class RobotGui(tk.Frame):
         self.go_to_position_frame = GoToPointFrame(self)
         self.robot_movement_frame = RobotMovementFrame(self)
         self.robot_status_frame = RobotStatusFrame(self)
+        self.robot_status_frame.async_home_robot()
         self.stop_robot_frame = StopRobotFrame(self)
 
     def init_variables(self):
