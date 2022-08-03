@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e6dbd1e5-e01b-43f2-a882-e3ae9d3f26d7" name="Changes" comment="Update robot position and point coordinates">
+    <list default="true" id="e6dbd1e5-e01b-43f2-a882-e3ae9d3f26d7" name="Changes" comment="Fix automatic home at start bug">
+      <change beforePath="$PROJECT_DIR$/.Scorobot_Projcet.wbproj" beforeDir="false" afterPath="$PROJECT_DIR$/.Scorobot_Projcet.wbproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GUI/SimGUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/SimGUI.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GUI/robotStatusFrame.py" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/robotStatusFrame.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/robotMoveByAxisFrame.py" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/robotMoveByAxisFrame.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/robotMovementFrameGui.py" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/robotMovementFrameGui.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SimRobot.py" beforeDir="false" afterPath="$PROJECT_DIR$/SimRobot.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -293,7 +295,10 @@
       <workItem from="1654253441566" duration="1948000" />
       <workItem from="1654528907527" duration="1392000" />
       <workItem from="1654623467253" duration="5341000" />
-      <workItem from="1654678395065" duration="4300000" />
+      <workItem from="1654678395065" duration="6244000" />
+      <workItem from="1654716751164" duration="769000" />
+      <workItem from="1655805452745" duration="114000" />
+      <workItem from="1659534946365" duration="14074000" />
     </task>
     <task id="LOCAL-00001" summary="Home button is now working.&#10;Robot is now moving while hold a button.">
       <created>1654179420340</created>
@@ -330,7 +335,14 @@
       <option name="project" value="LOCAL" />
       <updated>1654682377973</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Fix automatic home at start bug">
+      <created>1654683061195</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1654683061195</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -354,7 +366,8 @@
     <MESSAGE value="Fix gripper bug" />
     <MESSAGE value="Update robot position + gps in webots show correct home values" />
     <MESSAGE value="Update robot position and point coordinates" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update robot position and point coordinates" />
+    <MESSAGE value="Fix automatic home at start bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix automatic home at start bug" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -370,7 +383,7 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/ScorPySimulation$SimRobot.coverage" NAME="SimRobot Coverage Results" MODIFIED="1653938775526" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/ScorPy$contorollers.coverage" NAME="contorollers Coverage Results" MODIFIED="1653642871506" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Downloads" />
-    <SUITE FILE_PATH="coverage/ScorPySimulation$SimGUI.coverage" NAME="SimGUI Coverage Results" MODIFIED="1654682844877" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/ScorPySimulation$SimGUI.coverage" NAME="SimGUI Coverage Results" MODIFIED="1659551681734" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/ScorPy$ScorPy.coverage" NAME="ScorPy Coverage Results" MODIFIED="1653750336133" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/ScorPy$SimGUI.coverage" NAME="SimGUI Coverage Results" MODIFIED="1653921564623" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/ScorPySimulation$Controller.coverage" NAME="Controller Coverage Results" MODIFIED="1653938836414" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
