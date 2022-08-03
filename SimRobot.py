@@ -187,6 +187,87 @@ class SimRobot(Robot):
                 self._is_home = True
                 break
 
+    def move_xyz(self, xyz, direction):
+    
+        base_position = float(self.base_body_sen.getValue())
+        while base_position > 6.29:
+            base_position -= 6.29
+        while base_position < -6.29:
+            base_position += 6.29
+        
+        self.shoulder_mt.setPosition(float('-1.09'))
+        self.elbow_mt.setPosition(float('1.29'))
+        self.grip_mt.setPosition(float('1.3792'))
+        
+        if xyz == 'z':
+            print(f"Moving Z")
+            if direction:
+                self.shoulder_mt.setPosition(float('-1.2'))
+                self.elbow_mt.setPosition(float('0.496'))
+                self.grip_mt.setPosition(float('0.752'))
+            else:
+                self.shoulder_mt.setPosition(float('0.55'))
+        
+        if xyz == 'x':
+            print(f"Moving X")
+            if direction:
+                if base_position > 0:
+                    if base_position > 3.14:
+                        self.base_body_mt.setPosition(float('6.29'))
+                    else:
+                        self.base_body_mt.setPosition(float('0'))
+                else:
+                    if base_position < -3.14:
+                        self.base_body_mt.setPosition(float('-6.29'))
+                    else:
+                        self.base_body_mt.setPosition(float('0'))
+            else:
+                if base_position > 0:
+                    self.base_body_mt.setPosition(float('3.14'))
+                else:
+                    self.base_body_mt.setPosition(float('-3.14'))
+                    
+        if xyz == 'y':
+            print(f"Moving Y")
+            if direction:
+                best_option = min(abs(base_position - 1.57), abs(base_position - (-4.72)), abs(base_position - 7.86))
+                if best_option == abs(base_position - 1.57):
+                    self.base_body_mt.setPosition(float('1.57'))
+                elif best_option == abs(base_position - (-4.72)):
+                    self.base_body_mt.setPosition(float('-4.72'))
+                else:
+                    self.base_body_mt.setPosition(float('7.86'))
+            else:
+                best_option = min(abs(base_position - 4.72), abs(base_position - (-1.57)), abs(base_position - (-7.86)))
+                if best_option == abs(base_position - (-1.57)):
+                    self.base_body_mt.setPosition(float('-1.57'))
+                elif best_option == abs(base_position - 4.72):
+                    self.base_body_mt.setPosition(float('4.72'))
+                else:
+                    self.base_body_mt.setPosition(float('-7.86'))
+                   
+        self._enable_movement = True
+    
+        while robot.step(TIME_STEP) != -1 and self._enable_movement:
+                self.base_body_mt.setVelocity(BASE_SPEED + MOVEMENT_VELOCITY)
+                self.shoulder_mt.setVelocity(BASE_SPEED + MOVEMENT_VELOCITY)
+                self.elbow_mt.setVelocity(BASE_SPEED + MOVEMENT_VELOCITY)
+                self.grip_mt.setVelocity(BASE_SPEED + MOVEMENT_VELOCITY)
+                self.roll_grip_mt.setVelocity(BASE_SPEED + MOVEMENT_VELOCITY)
+                self.grip_right_arm_mt.setVelocity(BASE_SPEED + MOVEMENT_VELOCITY)
+                self.grip_left_arm_mt.setVelocity(BASE_SPEED + MOVEMENT_VELOCITY)
+        else:
+            self.base_body_mt.setVelocity(BASE_SPEED)
+            self.shoulder_mt.setVelocity(BASE_SPEED)
+            self.elbow_mt.setVelocity(BASE_SPEED)
+            self.grip_mt.setVelocity(BASE_SPEED)
+            self.roll_grip_mt.setVelocity(BASE_SPEED)
+            self.grip_right_arm_mt.setVelocity(BASE_SPEED)
+            self.grip_left_arm_mt.setVelocity(BASE_SPEED)
+            
+
+
+
     def move_joints_step(self, joint, direction):
         self._enable_movement = True
         motor = robot.getDevice(joint_map[joint])
@@ -194,13 +275,13 @@ class SimRobot(Robot):
         motor.setPosition(float('inf'))
         position = float(sensor.getValue()) + 0.1 if not direction else float(sensor.getValue()) - 0.1
         print(f"Moving joint {joint_map[joint]}")
-        diff = abs(sensor.getValue() - position)
+        # diff = abs(sensor.getValue() - position)
         start_time = time.time()
         # print(
         #     f"Moving joint {joint_map[joint]} position is  {sensor.getValue()} wanted = {position} diff is {abs(sensor.getValue())}")
         while self._enable_movement and robot.step(TIME_STEP) != -1:
             diff = abs(sensor.getValue() - position)
-            if time.time() - start_time > 10:
+            if time.time() - start_time > 2:
                 self._enable_movement = False
                 motor.setVelocity(BASE_SPEED)
                 print(f"Finished moving joint {joint_map[joint]} because timeout!")
@@ -209,11 +290,11 @@ class SimRobot(Robot):
                 self._is_home = False
                 if direction == 1:
                     # print(
-                        # f"direction is: {direction} wanted = {position} position {sensor.getValue()} Diff is {diff} > 1? {diff > 0.001:}")
+                        # f"direction is: {direction} wanted = {position} position {sensor.getValue()} Diff is {diff} > 1? {diff > 0.01:}")
                     motor.setVelocity(BASE_SPEED - MOVEMENT_VELOCITY)
                 else:
                     # print(
-                        # f"direction is: {direction} wanted = {position} position {sensor.getValue()} Diff is {diff} > 1? {diff > 0.001:}")
+                        # f"direction is: {direction} wanted = {position} position {sensor.getValue()} Diff is {diff} > 1? {diff > 0.01:}")
                     motor.setVelocity(BASE_SPEED + MOVEMENT_VELOCITY)
             else:
                 self._enable_movement = False
@@ -256,14 +337,6 @@ class SimRobot(Robot):
         motor = robot.getDevice(joint_map[joint])
         motor.setVelocity(BASE_SPEED)
 
-    def xyz_start(self, event, xyz, direction):
-        axis = sensor_map[xyz]
-        print(f"move_xyz : {axis, direction}")
-        
-    def move_xyz(self, xyz, direction):
-        axis = sensor_map[xyz]
-        print(f"move_xyz : {axis, direction}")
-
     def teach_absolute_xyz_position(self, point_number, x, y, z, pitch, roll):
         self._points[point_number] = Point(int(x), int(y), int(z), int(pitch * 1000), int(roll * 1000))
         return True
@@ -297,6 +370,14 @@ class SimRobot(Robot):
 
     def get_position_coordinates(self):
         data = self.gps.getValues()
+        # X = 2.13851
+        # Y = 5.04989
+        # Z = 0.34589
+        fixed_data = [0, 0, 0]
+        if data:
+            fixed_data[0] = data[0] + 0.4474 + 1.6903
+            fixed_data[1] = data[2] + 0.005095
+            fixed_data[2] =  data[1] + 4.6778
         # print(f"robot coordinates are {data}")
         return data
     

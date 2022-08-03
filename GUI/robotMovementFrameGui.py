@@ -121,7 +121,8 @@ class RobotMovementFrame(tk.LabelFrame):
     
     def xyz_start(self, event, axis, direction):
         if str(event.widget['state']) == 'normal':
-            self.parent.robot.move_xyz(axis, direction)
+            t_1 = Thread(target=self.parent.robot.move_xyz, args=(axis, direction))
+            t_1.start()
 
     def open_gripper(self, event):
         if str(event.widget['state']) == 'normal':
