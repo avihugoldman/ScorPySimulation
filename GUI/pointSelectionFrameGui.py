@@ -62,3 +62,5 @@ class PointSelectionFrame(tk.LabelFrame):
         if self.parent.is_point_absolute.get() == 0:
             self.relativePointBox.grid(row=0, column=3, sticky=tk.W)
             self.relativeToLabel.grid(row=0, column=2, sticky=tk.W)
+            
+            

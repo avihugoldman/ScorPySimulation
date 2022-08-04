@@ -53,9 +53,6 @@ class CoordinatesFrame(tk.LabelFrame):
         self.clearBtn.grid(row=2, column=4, columnspan=3)
         self.parent.buttons_set.add(self.clearBtn)
 
-        # t = Thread(target=self.update_robot_position, args=())
-        # t.start()
-
     def get_point_details(self):
         num_str = self.parent.point_selection_frame.currentPointBox.get()
         num = self.parent.point_management_frame.get_point_as_int(num_str)
@@ -65,12 +62,11 @@ class CoordinatesFrame(tk.LabelFrame):
             messagebox.showinfo("Error", "no such point in memory")
             return False
         data_array = self.get_coords(num)
-        # print(data_array)
         self.parent.x_var.set(round((data_array[0]), 3))
         self.parent.y_var.set(round((data_array[1]), 3))
         self.parent.z_var.set(round((data_array[2]), 3))
-        self.parent.pitch_var.set(data_array[3])
-        self.parent.roll_var.set(data_array[4])
+        self.parent.pitch_var.set(round(data_array[3], 3))
+        self.parent.roll_var.set(round(data_array[4], 3))
         if data_array[5] == "Absolute":
             type_string = 'absolute'
         else:

@@ -28,10 +28,11 @@ class PointManagementFrame(tk.LabelFrame):
         num_str = self.parent.point_selection_frame.currentPointBox.get()
         num = self.get_point_as_int(num_str)
         coords = self.get_point_coords()
+        motors_position = self.get_point_motors_positions()
         if not (num and coords):
             return False
         if self.parent.is_point_absolute.get() == 1:
-            is_recorded = self.teach_robot_absoulute_func(num, coords[0], coords[1], coords[2], coords[3], coords[4])
+            is_recorded = self.teach_robot_absoulute_func(num, coords[0], coords[1], coords[2], coords[3], coords[4], motors_position)
             print(is_recorded)
         else:
             relative_str = self.parent.point_selection_frame.relativePointBox.get()
@@ -41,7 +42,7 @@ class PointManagementFrame(tk.LabelFrame):
             if (relative_str == num_str):
                 messagebox.showinfo("Error", "both points can't have the same number")
                 return False
-            is_recorded = self.teach_robot_relative_func(num, coords[0], coords[1], coords[2], coords[3], coords[4], int(relative_str))
+            is_recorded = self.teach_robot_relative_func(num, coords[0], coords[1], coords[2], coords[3], coords[4], int(relative_str), motors_position)
         if not is_recorded:
             messagebox.showinfo("Error", "Coordinates are not in the robot workspace")
         else:
@@ -85,10 +86,20 @@ class PointManagementFrame(tk.LabelFrame):
                 messagebox.showinfo("Error", "coordinates must be numbers")
                 return False
         return result
+    
+    def get_point_motors_positions(self):
+        base = self.parent.robot.base_body_sen.getValue()
+        shoulder = self.parent.robot.shoulder_sen.getValue()
+        elbow = self.parent.robot.elbow_sen.getValue()
+        grip = self.parent.robot.grip_sen.getValue()
+        roll = self.parent.robot.roll_grip_sen.getValue()
+        motors_array = [base, shoulder, elbow, grip, roll]
+        return motors_array
 
-    def teach_robot_relative_func(self, point_num, x, y, z, pitch, roll, relative_num):
-        return self.parent.robot.teach_relative_xyz_position(point_num, int(x), int(y), int(z),
-                                    int(pitch), int(roll), relative_num)
+    def teach_robot_relative_func(self, point_num, x, y, z, pitch, roll, relative_num, motors_position):
+        return self.parent.robot.teach_relative_xyz_position(point_num, round(float(x), 3), round(float(y), 3), round(float(z), 3), round(float(pitch * 1000), 3), round(float(roll * 1000), 3), relative_num, motors_position)
 
-    def teach_robot_absoulute_func(self, point_num, x, y, z, pitch, roll):
-        return self.parent.robot.teach_absolute_xyz_position(point_num, int(x), int(y), int(z), int(pitch), int(roll))
+    def teach_robot_absoulute_func(self, point_num, x, y, z, pitch, roll, motors_position):
+        return self.parent.robot.teach_absolute_xyz_position(point_num, round(float(x), 3), round(float(y), 3), round(float(z), 3), round(float(pitch * 1000), 3), round(float(roll * 1000), 3), motors_position)
+
+    

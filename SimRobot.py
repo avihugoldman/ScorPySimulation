@@ -188,7 +188,6 @@ class SimRobot(Robot):
                 break
 
     def move_xyz(self, xyz, direction):
-    
         base_position = float(self.base_body_sen.getValue())
         while base_position > 6.29:
             base_position -= 6.29
@@ -200,36 +199,40 @@ class SimRobot(Robot):
         self.grip_mt.setPosition(float('1.3792'))
         
         if xyz == 'z':
-            print(f"Moving Z")
+            
             if direction:
+                print(f"Moving Z +")
                 self.shoulder_mt.setPosition(float('-1.2'))
                 self.elbow_mt.setPosition(float('0.496'))
                 self.grip_mt.setPosition(float('0.752'))
             else:
+                print(f"Moving Z -")
                 self.shoulder_mt.setPosition(float('0.55'))
         
         if xyz == 'x':
-            print(f"Moving X")
             if direction:
+                print(f"Moving X +")
                 if base_position > 0:
                     if base_position > 3.14:
                         self.base_body_mt.setPosition(float('6.29'))
                     else:
                         self.base_body_mt.setPosition(float('0'))
                 else:
+    
                     if base_position < -3.14:
                         self.base_body_mt.setPosition(float('-6.29'))
                     else:
                         self.base_body_mt.setPosition(float('0'))
             else:
+                print(f"Moving X -")
                 if base_position > 0:
                     self.base_body_mt.setPosition(float('3.14'))
                 else:
                     self.base_body_mt.setPosition(float('-3.14'))
                     
         if xyz == 'y':
-            print(f"Moving Y")
             if direction:
+                print(f"Moving Y +")
                 best_option = min(abs(base_position - 1.57), abs(base_position - (-4.72)), abs(base_position - 7.86))
                 if best_option == abs(base_position - 1.57):
                     self.base_body_mt.setPosition(float('1.57'))
@@ -238,6 +241,7 @@ class SimRobot(Robot):
                 else:
                     self.base_body_mt.setPosition(float('7.86'))
             else:
+                print(f"Moving Y -")
                 best_option = min(abs(base_position - 4.72), abs(base_position - (-1.57)), abs(base_position - (-7.86)))
                 if best_option == abs(base_position - (-1.57)):
                     self.base_body_mt.setPosition(float('-1.57'))
@@ -264,10 +268,34 @@ class SimRobot(Robot):
             self.roll_grip_mt.setVelocity(BASE_SPEED)
             self.grip_right_arm_mt.setVelocity(BASE_SPEED)
             self.grip_left_arm_mt.setVelocity(BASE_SPEED)
-            
 
-
-
+    def move_motoros_to_position(self, base, shoulder, elbow, grip, roll):
+        self.base_body_mt.setPosition(float(base))
+        self.shoulder_mt.setPosition(float(shoulder))
+        self.elbow_mt.setPosition(float(elbow))
+        self.grip_mt.setPosition(float(grip))
+        self.roll_grip_mt.setPosition(float(roll))
+        # self.grip_right_arm_mt.setPosition(float('0'))
+        # self.grip_left_arm_mt.setPosition(float('0'))
+        self._enable_movement = True
+    
+        while robot.step(TIME_STEP) != -1 and self._enable_movement:
+            self.base_body_mt.setVelocity(BASE_SPEED + MOVEMENT_VELOCITY)
+            self.shoulder_mt.setVelocity(BASE_SPEED + MOVEMENT_VELOCITY)
+            self.elbow_mt.setVelocity(BASE_SPEED + MOVEMENT_VELOCITY)
+            self.grip_mt.setVelocity(BASE_SPEED + MOVEMENT_VELOCITY)
+            self.roll_grip_mt.setVelocity(BASE_SPEED + MOVEMENT_VELOCITY)
+            self.grip_right_arm_mt.setVelocity(BASE_SPEED + MOVEMENT_VELOCITY)
+            self.grip_left_arm_mt.setVelocity(BASE_SPEED + MOVEMENT_VELOCITY)
+    
+    def move_to_point(self, point: Point, straight: bool):
+        base = point.motors_position[0]
+        shoulder = point.motors_position[1]
+        elbow = point.motors_position[2]
+        grip = point.motors_position[3]
+        roll = point.motors_position[4]
+        self.move_motoros_to_position(base, shoulder, elbow, grip, roll)
+    
     def move_joints_step(self, joint, direction):
         self._enable_movement = True
         motor = robot.getDevice(joint_map[joint])
@@ -318,9 +346,6 @@ class SimRobot(Robot):
         
         motor.setVelocity(BASE_SPEED)
         print(f"Finished moving joint {joint_map[joint]}")
-            
-    def move_to_point(self, point: Point):
-        pass
     
     def stop_movement(self, event, axis):
         self._enable_movement = False
@@ -337,13 +362,13 @@ class SimRobot(Robot):
         motor = robot.getDevice(joint_map[joint])
         motor.setVelocity(BASE_SPEED)
 
-    def teach_absolute_xyz_position(self, point_number, x, y, z, pitch, roll):
-        self._points[point_number] = Point(int(x), int(y), int(z), int(pitch * 1000), int(roll * 1000))
+    def teach_absolute_xyz_position(self, point_number, x, y, z, pitch, roll, motors_position):
+        self._points[point_number] = Point(round(float(x), 3), round(float(y), 3), round(float(z), 3), round(float(pitch * 1000), 3), round(float(roll * 1000), 3), "Absolute", motors_position)
         return True
         
-    def teach_relative_xyz_position(self, point_number, x, y, z, pitch, roll, relative_num):
+    def teach_relative_xyz_position(self, point_number, x, y, z, pitch, roll, relative_num, motors_position):
         rel_point = self._points[relative_num]
-        self._points[point_number] = Point(int(rel_point.x + x), int(rel_point.y + y), int(rel_point.z + z), int(rel_point.pitch + pitch * 1000), int(rel_point.roll + roll * 1000), "Relative")
+        self._points[point_number] = Point(round(float(rel_point.x + x), 3), round(float(rel_point.y + y), 3), round(float(rel_point.z + z), 3), round(float(rel_point.pitch + pitch * 1000), 3), round(float(rel_point.roll + roll * 1000), 3), "Relative", motors_position)
         return True
         
     def clear_recorded_points(self):
@@ -360,12 +385,14 @@ class SimRobot(Robot):
         
     def move_linear(self, num):
         point = self._points[num]
-        self.move_to_point(point)
+        t_1 = threading.Thread(target=self.move_to_point, args=(point, True))
+        t_1.start()
         print(f"Go straight to point {num}")
     
     def go_to_point(self, num):
         point = self._points[num]
-        self.move_to_point(point)
+        t_1 = threading.Thread(target=self.move_to_point, args=(point, False))
+        t_1.start()
         print(f"Go to point {num}")
 
     def get_position_coordinates(self):
