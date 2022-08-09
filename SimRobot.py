@@ -139,7 +139,7 @@ class SimRobot(Robot):
                 self.grip_right_arm_mt.setVelocity(BASE_SPEED)
                 self.grip_left_arm_mt.setVelocity(BASE_SPEED)
                 print(f"Finished moving gripper because of timeout!")
-            if abs(left_sensor.getValue() - 0.5056) > 0.001 and abs(right_sensor.getValue() + 0.5056) > 0.001:
+            if abs(left_sensor.getValue() - 0.5056) > 0.0001 and abs(right_sensor.getValue() + 0.5056) > 0.0001:
                 if not closing_print_flag:
                     print("Closing gripper!")
                     closing_print_flag = True
@@ -197,6 +197,7 @@ class SimRobot(Robot):
         self.shoulder_mt.setPosition(float('-1.09'))
         self.elbow_mt.setPosition(float('1.29'))
         self.grip_mt.setPosition(float('1.3792'))
+
         
         if xyz == 'z':
             
@@ -209,9 +210,9 @@ class SimRobot(Robot):
                 print(f"Moving Z -")
                 self.shoulder_mt.setPosition(float('0.55'))
         
-        if xyz == 'x':
-            if direction:
-                print(f"Moving X +")
+        elif xyz == 'x':
+            if not direction:
+                print(f"Moving X -")
                 if base_position > 0:
                     if base_position > 3.14:
                         self.base_body_mt.setPosition(float('6.29'))
@@ -224,15 +225,15 @@ class SimRobot(Robot):
                     else:
                         self.base_body_mt.setPosition(float('0'))
             else:
-                print(f"Moving X -")
+                print(f"Moving X +")
                 if base_position > 0:
                     self.base_body_mt.setPosition(float('3.14'))
                 else:
                     self.base_body_mt.setPosition(float('-3.14'))
                     
-        if xyz == 'y':
-            if direction:
-                print(f"Moving Y +")
+        elif xyz == 'y':
+            if not direction:
+                print(f"Moving Y -")
                 best_option = min(abs(base_position - 1.57), abs(base_position - (-4.72)), abs(base_position - 7.86))
                 if best_option == abs(base_position - 1.57):
                     self.base_body_mt.setPosition(float('1.57'))
@@ -241,7 +242,7 @@ class SimRobot(Robot):
                 else:
                     self.base_body_mt.setPosition(float('7.86'))
             else:
-                print(f"Moving Y -")
+                print(f"Moving Y +")
                 best_option = min(abs(base_position - 4.72), abs(base_position - (-1.57)), abs(base_position - (-7.86)))
                 if best_option == abs(base_position - (-1.57)):
                     self.base_body_mt.setPosition(float('-1.57'))
@@ -253,13 +254,12 @@ class SimRobot(Robot):
         self._enable_movement = True
     
         while robot.step(TIME_STEP) != -1 and self._enable_movement:
+            if xyz != 'z':
                 self.base_body_mt.setVelocity(BASE_SPEED + MOVEMENT_VELOCITY)
-                self.shoulder_mt.setVelocity(BASE_SPEED + MOVEMENT_VELOCITY)
-                self.elbow_mt.setVelocity(BASE_SPEED + MOVEMENT_VELOCITY)
-                self.grip_mt.setVelocity(BASE_SPEED + MOVEMENT_VELOCITY)
-                self.roll_grip_mt.setVelocity(BASE_SPEED + MOVEMENT_VELOCITY)
-                self.grip_right_arm_mt.setVelocity(BASE_SPEED + MOVEMENT_VELOCITY)
-                self.grip_left_arm_mt.setVelocity(BASE_SPEED + MOVEMENT_VELOCITY)
+            self.shoulder_mt.setVelocity(BASE_SPEED + MOVEMENT_VELOCITY)
+            self.elbow_mt.setVelocity(BASE_SPEED + MOVEMENT_VELOCITY)
+            self.grip_mt.setVelocity(BASE_SPEED + MOVEMENT_VELOCITY)
+            self.roll_grip_mt.setVelocity(BASE_SPEED + MOVEMENT_VELOCITY)
         else:
             self.base_body_mt.setVelocity(BASE_SPEED)
             self.shoulder_mt.setVelocity(BASE_SPEED)

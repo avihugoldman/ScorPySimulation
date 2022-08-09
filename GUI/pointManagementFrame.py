@@ -89,6 +89,10 @@ class PointManagementFrame(tk.LabelFrame):
     
     def get_point_motors_positions(self):
         base = self.parent.robot.base_body_sen.getValue()
+        while base > 6.29:
+            base -= 6.29
+        while base < -6.29:
+            base += 6.29
         shoulder = self.parent.robot.shoulder_sen.getValue()
         elbow = self.parent.robot.elbow_sen.getValue()
         grip = self.parent.robot.grip_sen.getValue()
